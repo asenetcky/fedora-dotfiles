@@ -2,18 +2,25 @@
 # Dotfiles setup
 
 ## Layered Applications
-sudo rpm-ostree install btop fastfetch fzf gh neovim stow tailscale
+echo "Installing Layered Applications"
 
-#TODO
-#sudo rpm --import https://downloads.1password.com/linux/keys/1password.asc
-#sudo sh -c 'echo -e "[1password]\nname=1Password Stable Channel\nbaseurl=https://downloads.1password.com/linux/rpm/stable/\$basearch\nenabled=1\ngpgcheck=1\nrepo_gpgcheck=1\ngpgkey=\"https://downloads.1password.com/linux/keys/1password.asc\"" > /etc/yum.repos.d/1password.repo'
-#sudo dnf install -y 1password 1password-cli
+### 1password repos
+sudo rpm --import https://downloads.1password.com/linux/keys/1password.asc
+sudo sh -c 'echo -e "[1password]\nname=1Password Stable Channel\nbaseurl=https://downloads.1password.com/linux/rpm/stable/\$basearch\nenabled=1\ngpgcheck=1\nrepo_gpgcheck=1\ngpgkey=https://downloads.1password.com/linux/keys/1password.asc" > /etc/yum.repos.d/1password.repo'
 
-# todo
+### install all layered apps and 1password
+sudo rpm-ostree install btop fastfetch fzf gh neovim stow tailscale 1password 1password-cli
+
+# TODO
 #sudo dnf copr enable -y dejan/lazygit
 #sudo dnf install -y lazygit
 
-## Quarto
+## Development-related Appilcations
+
+### Quarto
+
+echo "Installing Quarto"
+
 QUARTO_VERSION="1.8.26"
 
 sudo mkdir -p /opt/quarto/${QUARTO_VERSION}
@@ -31,26 +38,44 @@ sudo rm quarto.tar.gz
 
 sudo ln -s /opt/quarto/${QUARTO_VERSION}/bin/quarto /usr/local/bin/quarto
 
-## uv
+### uv
+
+echo "Installing uv"
+
 curl -LsSf https://astral.sh/uv/install.sh | sh
 
-## air formatter
+### air formatter
+
+echo "Installing air code formatter"
+
 curl -LsSf https://github.com/posit-dev/air/releases/latest/download/air-installer.sh | sh
+#
+# rust install
+curl --proto '=https' --tlsv1.2 -sSf https://sh.rustup.rs | sh -s -- -y
+. "$HOME/.cargo/env"
+rustup update
 
 ## cozy cli stuff
-## pls for ls
+
+### pls for ls
+
+echo "Installing pls(1) with uv"
+
 uv tool install pls
 
-## nerd fonts for terminal
+### nerd fonts for terminal
+
+echo "Installing JetBrainsMono Nerd Font"
+
 git clone --depth 1 https://github.com/ryanoasis/nerd-fonts.git ~/utility-repos/
 bash ~/utility-repos/install.sh JetBrainsMono
 rm -rf ~/utility-repos
-echo "Nerd Fonts installed successfully."
+echo "JetBrainsMono Nerd Font installed successfully."
 
-# stapship cli
+### stapship cli
+
+echo "Installing Starship"
+
 curl -sS https://starship.rs/install.sh | sh
 
-# rust install
-curl --proto '=https' --tlsv1.2 -sSf https://sh.rustup.rs | sh
-. "$HOME/.cargo/env"
-rustup update
+
