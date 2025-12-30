@@ -1,4 +1,4 @@
-#! /bin/bash
+#!/bin/bash
 
 # Fedora Silverblue Post install
 
