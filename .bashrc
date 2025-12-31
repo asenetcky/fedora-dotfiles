@@ -37,6 +37,9 @@ if [ -d ~/.bashrc.d ]; then
 fi
 unset rc
 
+# for 1password and vscode flatpak
+export SSH_AUTH_SOCK="~/.1password/agent.sock"
+
 # for cargo/rust
 . "$HOME/.cargo/env"
 

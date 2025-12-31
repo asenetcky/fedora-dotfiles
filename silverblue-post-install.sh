@@ -21,3 +21,6 @@ flatpak remote-add --if-not-exists flathub https://flathub.org/repo/flathub.flat
 
 ## install flatpaks
 flakpak install flathub sh.loft.devpod org.libreoffice.LibreOffice com.github.marhkb.Pods com.visualstudio.code io.podman_desktop.PodmanDesktop -y
+
+## 1password and vs code setup
+flatpak override --user com.visualstudio.code --filesystem=~/.1password:ro
