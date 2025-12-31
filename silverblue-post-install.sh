@@ -20,7 +20,11 @@ sudo rpm-ostree install lazygit
 flatpak remote-add --if-not-exists flathub https://flathub.org/repo/flathub.flatpakrepo
 
 ## install flatpaks
-flakpak install flathub sh.loft.devpod org.libreoffice.LibreOffice com.github.marhkb.Pods com.visualstudio.code io.podman_desktop.PodmanDesktop -y
+flakpak install flathub sh.loft.devpod org.libreoffice.LibreOffice com.github.marhkb.Pods com.visualstudio.code io.podman_desktop.PodmanDesktop com.github.tchx84.Flatseal -y
 
 ## 1password and vs code setup
+### https://davejansen.com/using-vscode-flatpak-with-1password-ssh-git-signing/
 flatpak override --user com.visualstudio.code --filesystem=~/.1password:ro
+flatpak override --user com.visualstudio.code --filesystem=~/.bashrc:ro
+flatpak override --user com.visualstudio.code --filesystem=~/.ssh
+flatpak override --user com.visualstudio.code --filesystem=~/.gitconfig --filesystem=xdg-config/git
