@@ -38,7 +38,7 @@ fi
 unset rc
 
 # for 1password and vscode flatpak
-export SSH_AUTH_SOCK="~/.1password/agent.sock"
+export SSH_AUTH_SOCK="$HOME/.1password/agent.sock"
 
 # for cargo/rust
 . "$HOME/.cargo/env"
