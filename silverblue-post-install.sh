@@ -28,3 +28,7 @@ flatpak override --user com.visualstudio.code --filesystem=~/.1password:ro
 flatpak override --user com.visualstudio.code --filesystem=~/.bashrc:ro
 flatpak override --user com.visualstudio.code --filesystem=~/.ssh
 flatpak override --user com.visualstudio.code --filesystem=~/.gitconfig --filesystem=xdg-config/git
+
+### access to tailscale
+flatpak override --user --filesystem=/usr/bin/tailscaled com.visualstudio.code
+flatpak override --user --filesystem=/var/run/tailscale/tailscaled.sock com.visualstudio.code
