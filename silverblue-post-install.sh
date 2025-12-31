@@ -15,3 +15,6 @@ sudo rpm-ostree update --uninstall rpmfusion-free-release --uninstall rpmfusion-
 
 sudo curl https://copr.fedorainfracloud.org/coprs/dejan/lazygit/repo/fedora-43/dejan-lazygit-fedora-43.repo -o /etc/yum.repos.d/lazygit.repo
 sudo rpm-ostree install lazygit
+
+## add flatpak
+flatpak remote-add --if-not-exists flathub https://flathub.org/repo/flathub.flatpakrepo
