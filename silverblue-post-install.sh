@@ -18,3 +18,6 @@ sudo rpm-ostree install lazygit
 
 ## add flatpak
 flatpak remote-add --if-not-exists flathub https://flathub.org/repo/flathub.flatpakrepo
+
+## install flatpaks
+flakpak install flathub sh.loft.devpod org.libreoffice.LibreOffice com.github.marhkb.Pods com.visualstudio.code io.podman_desktop.PodmanDesktop -y
