@@ -2,7 +2,7 @@
 [user]
 	name = asenetcky
 	email = me@asenetcky.dev
-	signingkey = ssh-ed25519 AAAAC3NzaC1lZDI1NTE5AAAAIGpsEczVtREA3bqe8zUgaS/oPzaw6sCI3HZjTvR6AE93
+	signingkey = ssh-ed25519 AAAAC3NzaC1lZDI1NTE5AAAAIHUAD6ZqpJV467BYsKtEsDeN/gt8EejXHKHVztekr4Ov
 [gpg]
 	format = ssh
 #[gpg "ssh"]
