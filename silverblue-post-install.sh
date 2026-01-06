@@ -16,11 +16,14 @@ sudo rpm-ostree update --uninstall rpmfusion-free-release --uninstall rpmfusion-
 sudo curl https://copr.fedorainfracloud.org/coprs/dejan/lazygit/repo/fedora-43/dejan-lazygit-fedora-43.repo -o /etc/yum.repos.d/lazygit.repo
 sudo rpm-ostree install lazygit
 
+## add lazydocker
+curl https://raw.githubusercontent.com/jesseduffield/lazydocker/master/scripts/install_update_linux.sh | bash
+
 ## add flatpak
 flatpak remote-add --if-not-exists flathub https://flathub.org/repo/flathub.flatpakrepo
 
 ## install flatpaks
-flakpak install flathub sh.loft.devpod org.libreoffice.LibreOffice com.github.marhkb.Pods com.visualstudio.code io.podman_desktop.PodmanDesktop com.github.tchx84.Flatseal -y
+flatpak install flathub sh.loft.devpod org.libreoffice.LibreOffice com.github.marhkb.Pods com.visualstudio.code io.podman_desktop.PodmanDesktop com.github.tchx84.Flatseal dev.zed.Zed -y
 
 ## 1password and vs code setup
 ### https://davejansen.com/using-vscode-flatpak-with-1password-ssh-git-signing/
