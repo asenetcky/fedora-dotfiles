@@ -30,3 +30,6 @@ alias butane='podman run --rm --interactive         \
 
 # gemini-cli
 alias gemini='npx https://github.com/google-gemini/gemini-cli'
+
+# copilot-cli
+alias copilot='npx @github/copilot'
