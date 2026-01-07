@@ -33,3 +33,6 @@ alias gemini='npx https://github.com/google-gemini/gemini-cli'
 
 # copilot-cli
 alias copilot='npx @github/copilot'
+
+# marimo
+alias mam="uvx marimo -y edit --sandbox --watch"
