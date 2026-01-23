@@ -41,7 +41,6 @@ unset rc
 export SSH_AUTH_SOCK="$HOME/.1password/agent.sock"
 
 # for cargo/rust
-. "$HOME/.cargo/env"
 
 # Set up fzf key bindings and fuzzy completion
 eval "$(fzf --bash)"
@@ -50,3 +49,6 @@ eval "$(fzf --bash)"
 eval "$(starship init bash)"
 
 fastfetch
+
+# opencode
+export PATH=/var/home/alex/.opencode/bin:$PATH
