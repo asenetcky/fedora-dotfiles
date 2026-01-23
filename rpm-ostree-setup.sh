@@ -11,10 +11,6 @@ sudo sh -c 'echo -e "[1password]\nname=1Password Stable Channel\nbaseurl=https:/
 ### install all layered apps and 1password
 sudo rpm-ostree install btop fastfetch fzf gh neovim stow tailscale gh bat 1password 1password-cli libavcodec-freeworld
 
-# TODO
-#sudo dnf copr enable -y dejan/lazygit
-#sudo dnf install -y lazygit
-
 ## Development-related Appilcations
 
 ### Quarto
@@ -49,12 +45,6 @@ curl -LsSf https://astral.sh/uv/install.sh | sh
 echo "Installing air code formatter"
 
 curl -LsSf https://github.com/posit-dev/air/releases/latest/download/air-installer.sh | sh
-#
-# rust install
-# install this in a toolbox
-#curl --proto '=https' --tlsv1.2 -sSf https://sh.rustup.rs | sh -s -- -y
-#. "$HOME/.cargo/env"
-#rustup update
 
 ## cozy cli stuff
 
@@ -84,3 +74,6 @@ curl -sS https://starship.rs/install.sh | sh
 echo "Enabling Tailscale"
 sudo systemctl enable --now tailscaled
 sudo tailscale up --auth_key file:.tailscale
+
+### install opencode cli agent
+curl -fsSL https://opencode.ai/install | bash
