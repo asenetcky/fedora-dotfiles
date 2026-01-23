@@ -51,9 +51,10 @@ echo "Installing air code formatter"
 curl -LsSf https://github.com/posit-dev/air/releases/latest/download/air-installer.sh | sh
 #
 # rust install
-curl --proto '=https' --tlsv1.2 -sSf https://sh.rustup.rs | sh -s -- -y
-. "$HOME/.cargo/env"
-rustup update
+# install this in a toolbox
+#curl --proto '=https' --tlsv1.2 -sSf https://sh.rustup.rs | sh -s -- -y
+#. "$HOME/.cargo/env"
+#rustup update
 
 ## cozy cli stuff
 
