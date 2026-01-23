@@ -36,3 +36,6 @@ alias copilot='npx @github/copilot'
 
 # marimo
 alias mam="uvx marimo -y edit --sandbox --watch"
+
+# easy open
+alias open='xdg-open'
