@@ -14,7 +14,7 @@ jobs:
       - name: Install Git
         run: dnf install -y git
 
-      - uses: actions/checkout@v4
+      - uses: actions/checkout@v6
 
       - name: Check Syntax (bash -n)
         run: |
