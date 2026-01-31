@@ -10,7 +10,7 @@ jobs:
     name: ShellCheck
     runs-on: ubuntu-latest
     steps:
-      - uses: actions/checkout@v4
+      - uses: actions/checkout@v6
       - name: Run ShellCheck
         uses: ludeeus/action-shellcheck@master
         with:
@@ -21,7 +21,7 @@ jobs:
     name: Stylua (Lua)
     runs-on: ubuntu-latest
     steps:
-      - uses: actions/checkout@v4
+      - uses: actions/checkout@v6
       - name: Stylua
         uses: JohnnyMorganz/stylua-action@v3
         with:
@@ -33,7 +33,7 @@ jobs:
     name: Markdown Lint
     runs-on: ubuntu-latest
     steps:
-      - uses: actions/checkout@v4
+      - uses: actions/checkout@v6
       - name: markdownlint-cli2-action
         uses: DavidAnson/markdownlint-cli2-action@v22
         with:
@@ -43,7 +43,7 @@ jobs:
     name: Actionlint
     runs-on: ubuntu-latest
     steps:
-      - uses: actions/checkout@v4
+      - uses: actions/checkout@v6
       - name: Check workflow files
         uses: reviewdog/action-actionlint@v1
 
@@ -52,7 +52,7 @@ jobs:
     name: Prettier (JSON/YAML)
     runs-on: ubuntu-latest
     steps:
-      - uses: actions/checkout@v4
+      - uses: actions/checkout@v6
       - name: Prettier Check
         uses: actions/setup-node@v6
         with:
