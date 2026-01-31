@@ -1,4 +1,4 @@
-#! /bin/bash
+#!/bin/bash
 # Dotfiles setup
 
 ## Layered Applications
@@ -9,30 +9,9 @@ sudo rpm --import https://downloads.1password.com/linux/keys/1password.asc
 sudo sh -c 'echo -e "[1password]\nname=1Password Stable Channel\nbaseurl=https://downloads.1password.com/linux/rpm/stable/\$basearch\nenabled=1\ngpgcheck=1\nrepo_gpgcheck=1\ngpgkey=https://downloads.1password.com/linux/keys/1password.asc" > /etc/yum.repos.d/1password.repo'
 
 ### install all layered apps and 1password
-sudo rpm-ostree install btop fastfetch fzf gh neovim stow tailscale gh bat 1password 1password-cli libavcodec-freeworld
+sudo rpm-ostree install btop fastfetch fzf gh neovim stow tailscale gh bat 1password 1password-cli tailscale libavcodec-freeworld
 
 ## Development-related Appilcations
-
-### Quarto
-
-echo "Installing Quarto"
-
-QUARTO_VERSION="1.8.26"
-
-sudo mkdir -p /opt/quarto/${QUARTO_VERSION}
-
-sudo curl -o quarto.tar.gz -L \
-  "https://github.com/quarto-dev/quarto-cli/releases/download/v${QUARTO_VERSION}/quarto-${QUARTO_VERSION}-linux-amd64.tar.gz"
-
-sudo tar -zxvf quarto.tar.gz \
-  -C "/opt/quarto/${QUARTO_VERSION}" \
-  --strip-components=1
-
-sudo rm quarto.tar.gz
-
-/opt/quarto/"${QUARTO_VERSION}"/bin/quarto check
-
-sudo ln -s /opt/quarto/${QUARTO_VERSION}/bin/quarto /usr/local/bin/quarto
 
 ### uv
 
@@ -71,9 +50,9 @@ curl -sS https://starship.rs/install.sh | sh
 
 ### tailscale
 
-echo "Enabling Tailscale"
-sudo systemctl enable --now tailscaled
-sudo tailscale up --auth_key file:.tailscale
+#echo "Enabling Tailscale"
+#sudo systemctl enable --now tailscaled
+#sudo tailscale up --auth_key file:.tailscale
 
 ### install opencode cli agent
 curl -fsSL https://opencode.ai/install | bash
