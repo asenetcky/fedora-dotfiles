@@ -5,6 +5,13 @@ All notable changes to this project will be documented in this file.
 The format is based on [Keep a Changelog](https://keepachangelog.com/en/1.1.0/),
 and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0.html).
 
+## [0.2.1] - 2026-01-30
+
+### Fixed
+- Fixed syntax errors in `scripts/01-rpmfusion.sh` caused by missing line continuation backslashes.
+- Standardized logging using `common.sh` across all setup scripts.
+- Fixed 1Password repository installation block in `scripts/02-layered-pkgs.sh`.
+
 ## [0.2.0] - 2026-01-30
 
 ### Added
