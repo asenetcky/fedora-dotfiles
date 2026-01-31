@@ -51,4 +51,4 @@ eval "$(starship init bash)"
 fastfetch
 
 # opencode
-export PATH=/var/home/alex/.opencode/bin:$PATH
+export PATH="$HOME/.opencode/bin:$PATH"

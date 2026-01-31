@@ -77,6 +77,12 @@ case "$CURRENT_STATE" in
         echo "Running Dotfiles Stow (Step 05)..."
         ./scripts/05-dotfiles.sh
         
+        echo "Running Gnome Settings Restore (Step 06)..."
+        ./scripts/06-gnome.sh
+
+        echo "Running System Cleanup (Step 99)..."
+        ./scripts/99-cleanup.sh
+        
         set_state "ALL_DONE"
         echo "---------------------------------------------------"
         echo "All steps completed successfully!"
