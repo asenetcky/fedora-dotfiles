@@ -1,10 +1,17 @@
 #!/bin/bash
 set -e
 
-echo ">>> Setting up Flatpaks..."
+source "$(dirname "$0")/common.sh"
+
+log_info ">>> Setting up Flatpaks..."
 
 # Add Flathub
-flatpak remote-add --if-not-exists flathub https://flathub.org/repo/flathub.flatpakrepo
+if ! flatpak remote-list | grep -q "flathub"; then
+    log_info "Adding Flathub remote..."
+    flatpak remote-add --if-not-exists flathub https://flathub.org/repo/flathub.flatpakrepo
+else
+    log_info "Flathub remote already exists."
+fi
 
 # Install Flatpaks
 FLATPAKS=(
@@ -17,17 +24,19 @@ FLATPAKS=(
     dev.zed.Zed
 )
 
-echo "Installing Flatpaks: ${FLATPAKS[*]}"
-flatpak install flathub "${FLATPAKS[@]}" -y
+log_info "Installing Flatpaks: ${FLATPAKS[*]}"
+# --or-update ensures we don't fail if already installed, and updates if available
+flatpak install flathub "${FLATPAKS[@]}" -y --or-update
 
 # VS Code Overrides
-echo "Applying VS Code Overrides..."
+log_info "Applying VS Code Overrides..."
 flatpak override --user com.visualstudio.code --filesystem=~/.1password:ro
 flatpak override --user com.visualstudio.code --filesystem=~/.bashrc:ro
 flatpak override --user com.visualstudio.code --filesystem=~/.ssh
 flatpak override --user com.visualstudio.code --filesystem=~/.gitconfig --filesystem=xdg-config/git
+
 # Tailscale access for VS Code
 flatpak override --user --filesystem=/usr/bin/tailscaled com.visualstudio.code
 flatpak override --user --filesystem=/var/run/tailscale/tailscaled.sock com.visualstudio.code
 
-echo ">>> Step 04 Complete."
+log_success ">>> Step 04 Complete."
