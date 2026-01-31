@@ -1,0 +1,10 @@
+version: 2
+updates:
+  # Maintain dependencies for GitHub Actions
+  - package-ecosystem: "github-actions"
+    directory: "/"
+    schedule:
+      interval: "weekly"
+
+  # Maintain dependencies for Lua (if any are managed via a supported manager)
+  # and general project metadata.
