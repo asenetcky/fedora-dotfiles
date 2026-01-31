@@ -1,3 +1,4 @@
 *.pub
 *.env
 .tailscale
+.ssh/known_hosts
