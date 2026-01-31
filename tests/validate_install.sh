@@ -2,7 +2,6 @@
 set -e
 
 # Source common functions
-# We need to find common.sh relative to this script
 SCRIPT_DIR="$(dirname "$(realpath "$0")")"
 source "$SCRIPT_DIR/../scripts/common.sh"
 
@@ -45,6 +44,7 @@ check_cmd uv
 check_cmd starship
 check_cmd quarto
 check_cmd lazydocker
+check_cmd opencode
 # pls is a uv tool, check if it's in path
 check_cmd pls
 
@@ -60,6 +60,15 @@ if toolbox list | grep -q "default"; then
     log_success "Found toolbox 'default'"
 else
     log_error "Missing toolbox 'default'"
+    FAILED=1
+fi
+
+# 5. Check Config Artifacts
+log_info "Checking Config Artifacts..."
+if [ -f "$SCRIPT_DIR/../gnome/dconf-settings.ini" ]; then
+    log_success "Gnome settings backup found."
+else
+    log_error "Gnome settings backup missing."
     FAILED=1
 fi
 
