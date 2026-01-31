@@ -49,7 +49,12 @@ OCI image via GitHub Actions and rebase your system to it. This effectively
 
 1. **Fork this repository** to your own GitHub account.
 
-2. **Push changes** to trigger the GitHub Actions workflow, which will
+2. **Set up image signing** (recommended):
+   Follow the [Image Signing Setup Guide](SIGNING.md) to generate cosign keys
+   and configure GitHub secrets. This ensures your images are cryptographically
+   signed for verification.
+
+3. **Push changes** to trigger the GitHub Actions workflow, which will
    automatically build your custom image and publish it to GitHub Container
    Registry.
 
@@ -64,6 +69,14 @@ Once the image is built (check GitHub Actions tab), rebase your system:
    ```
 
 1. **Rebase to your custom image**:
+
+   **If using signed images** (recommended):
+
+   ```bash
+   rpm-ostree rebase ostree-image-signed:docker://ghcr.io/your-username/silverblue-custom:latest
+   ```
+
+   **If not using signing**:
 
    ```bash
    rpm-ostree rebase ostree-unverified-registry:ghcr.io/your-username/silverblue-custom:latest
@@ -87,12 +100,11 @@ dotfiles:
 ./scripts/06-gnome.sh
 ```
 
-> **Note on Image Signing:** This setup does not use image signing (cosign).
-> For personal use where you control the entire pipeline (repository → build →
-> registry → deployment), signing provides minimal additional security value.
-> If you later need to share images publicly or require compliance features,
-> you can enable signing by following the [BlueBuild signing
-> documentation](https://blue-build.org/how-to/cosign/).
+> **Note on Image Signing:** This repository supports optional image signing
+> with cosign for enhanced security and verification. See the [Image Signing
+> Setup Guide](SIGNING.md) for detailed instructions on generating keys and
+> configuring GitHub secrets. Signing is recommended if you share your images
+> or require cryptographic verification of image integrity.
 
 ## Installed Tools
 

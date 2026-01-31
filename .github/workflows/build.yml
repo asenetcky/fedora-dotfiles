@@ -25,17 +25,10 @@ jobs:
         recipe:
           - config/recipes/recipe.yml
     steps:
-      # Create dummy cosign keys to satisfy BlueBuild CLI validation
-      - name: Create dummy cosign keys
-        run: |
-          echo "dummy-private-key" > cosign.key
-          echo "dummy-public-key" > cosign.pub
-
       - name: Build Custom Image
         uses: blue-build/github-action@v1.8.1
         with:
           recipe: ${{ matrix.recipe }}
-          cosign_private_key: "dummy-key"
+          cosign_private_key: ${{ secrets.SIGNING_SECRET }}
           registry_token: ${{ github.token }}
           pr_event_number: ${{ github.event.number }}
-          build_opts: "--no-sign"
