@@ -22,8 +22,9 @@ Image signing provides:
 Download and install Cosign from the official releases:
 
 ```bash
-# On Linux (adjust version as needed)
-wget https://github.com/sigstore/cosign/releases/latest/download/cosign-linux-amd64
+# On Linux (using version 2.4.1 - check releases for latest)
+COSIGN_VERSION="v2.4.1"
+wget "https://github.com/sigstore/cosign/releases/download/${COSIGN_VERSION}/cosign-linux-amd64"
 chmod +x cosign-linux-amd64
 sudo mv cosign-linux-amd64 /usr/local/bin/cosign
 
@@ -105,13 +106,25 @@ After pushing changes and the workflow completes successfully:
 Users can verify your signed images using your public key:
 
 ```bash
-# Pull your public key
+# Method 1: If you have the repository cloned
+cd ~/fedora-dotfiles
+cosign verify --key cosign.pub \
+  ghcr.io/YOUR-USERNAME/silverblue-custom:latest
+
+# Method 2: Download the public key (verify HTTPS is used)
 wget https://raw.githubusercontent.com/YOUR-USERNAME/fedora-dotfiles/main/cosign.pub
 
-# Verify an image
+# Verify the downloaded key fingerprint matches what you expect
+# (Get the expected fingerprint from repository owner through a trusted channel)
+
+# Then verify the image
 cosign verify --key cosign.pub \
   ghcr.io/YOUR-USERNAME/silverblue-custom:latest
 ```
+
+**Security Note**: Always verify the public key fingerprint through a separate
+trusted channel (e.g., direct communication with the repository owner) before
+using it to verify images.
 
 ## Rebasing to a Signed Image
 
