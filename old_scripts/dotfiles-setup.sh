@@ -8,5 +8,5 @@ echo "Backing up current .bashrc"
 mv ~/.bashrc ~/.bashrc.bak
 
 echo "stow dotfiles"
-cd ~/dotfiles
+cd ~/dotfiles || exit 1
 stow .

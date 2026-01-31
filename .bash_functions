@@ -1,3 +1,4 @@
+#!/bin/bash
 # .bash_functions
 
 # fedora silverblue function from their tips and tricks
