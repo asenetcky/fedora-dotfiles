@@ -11,8 +11,8 @@ if rpm -q rpmfusion-free-release &>/dev/null && rpm -q rpmfusion-nonfree-release
 else
     log_info "Installing RPM Fusion repo packages..."
     sudo rpm-ostree install \
-        https://mirrors.rpmfusion.org/free/fedora/rpmfusion-free-release-$(rpm -E %fedora).noarch.rpm \
-        https://mirrors.rpmfusion.org/nonfree/fedora/rpmfusion-nonfree-release-$(rpm -E %fedora).noarch.rpm
+        "https://mirrors.rpmfusion.org/free/fedora/rpmfusion-free-release-$(rpm -E %fedora).noarch.rpm" \
+        "https://mirrors.rpmfusion.org/nonfree/fedora/rpmfusion-nonfree-release-$(rpm -E %fedora).noarch.rpm"
 fi
 
 log_info ">>> Ensuring RPM Fusion repos are fully consistent..."

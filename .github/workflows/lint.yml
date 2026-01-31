@@ -2,7 +2,7 @@ name: Lint & Style
 
 on:
   push:
-    branches: [ main, master ]
+    branches: [main, master]
   pull_request:
 
 jobs:
@@ -10,20 +10,20 @@ jobs:
     name: ShellCheck
     runs-on: ubuntu-latest
     steps:
-      - uses: actions/checkout@v4
+      - uses: actions/checkout@v6
       - name: Run ShellCheck
         uses: ludeeus/action-shellcheck@master
         with:
-          scandir: './'
+          scandir: "./"
           severity: warning
 
   stylua:
     name: Stylua (Lua)
     runs-on: ubuntu-latest
     steps:
-      - uses: actions/checkout@v4
+      - uses: actions/checkout@v6
       - name: Stylua
-        uses: JohnnyMorganz/stylua-action@v3
+        uses: JohnnyMorganz/stylua-action@v4
         with:
           token: ${{ secrets.GITHUB_TOKEN }}
           version: latest
@@ -33,17 +33,17 @@ jobs:
     name: Markdown Lint
     runs-on: ubuntu-latest
     steps:
-      - uses: actions/checkout@v4
+      - uses: actions/checkout@v6
       - name: markdownlint-cli2-action
-        uses: DavidAnson/markdownlint-cli2-action@v16
+        uses: DavidAnson/markdownlint-cli2-action@v22
         with:
-          globs: '**/*.md'
+          globs: "**/*.md"
 
   actionlint:
     name: Actionlint
     runs-on: ubuntu-latest
     steps:
-      - uses: actions/checkout@v4
+      - uses: actions/checkout@v6
       - name: Check workflow files
         uses: reviewdog/action-actionlint@v1
 
@@ -52,9 +52,9 @@ jobs:
     name: Prettier (JSON/YAML)
     runs-on: ubuntu-latest
     steps:
-      - uses: actions/checkout@v4
+      - uses: actions/checkout@v6
       - name: Prettier Check
-        uses: actions/setup-node@v4
+        uses: actions/setup-node@v6
         with:
-          node-version: '20'
-      - run: npx prettier --check "**/*.{json,yaml,yml}" "!lazy-lock.json"
+          node-version: "20"
+      - run: npx prettier --check "**/*.{json,yaml,yml}" "!**/*lazy-lock.json"
