@@ -1,26 +1,35 @@
 #!/bin/bash
 set -e
 
-echo ">>> Stowing Dotfiles..."
+source "$(dirname "$0")/common.sh"
+
+log_info ">>> Stowing Dotfiles..."
 
 # Backup function
 backup_file() {
     if [ -f "$1" ] && [ ! -L "$1" ]; then
-        echo "Backing up $1 to $1.bak"
+        log_info "Backing up $1 to $1.bak"
         mv "$1" "$1.bak"
     fi
 }
 
-backup_file ~/.gitconfig
-backup_file ~/.bashrc
+backup_file "$HOME/.gitconfig"
+backup_file "$HOME/.bashrc"
 
 # Ensure we are in the dotfiles directory
 CDIR="$(dirname "$0")"
 DOTFILES_ROOT="$(realpath "$CDIR/../")"
 
-echo "Stowing from $DOTFILES_ROOT"
+log_info "Stowing from $DOTFILES_ROOT"
 pushd "$DOTFILES_ROOT" > /dev/null
-stow .
+# stow . handles the symlinking
+if stow .; then
+    log_success "Dotfiles stowed successfully."
+else
+    log_error "Stow failed."
+    popd > /dev/null
+    exit 1
+fi
 popd > /dev/null
 
-echo ">>> Step 05 Complete."
+log_success ">>> Step 05 Complete."
