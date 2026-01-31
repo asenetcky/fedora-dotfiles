@@ -44,6 +44,6 @@ PKGS=(
 )
 
 log_info "Installing/Layering packages: ${PKGS[*]}"
-sudo rpm-ostree install "${PKGS[@]}"
+sudo rpm-ostree install --idempotent "${PKGS[@]}"
 
 log_success ">>> Step 02 Complete. Reboot required to boot into new deployment."
