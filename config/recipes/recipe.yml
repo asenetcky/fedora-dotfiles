@@ -44,5 +44,3 @@ modules:
         - io.podman_desktop.PodmanDesktop
         - com.github.tchx84.Flatseal
         - dev.zed.Zed
-
-  - type: signing
