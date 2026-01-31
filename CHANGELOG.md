@@ -5,6 +5,23 @@ All notable changes to this project will be documented in this file.
 The format is based on [Keep a Changelog](https://keepachangelog.com/en/1.1.0/),
 and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0.html).
 
+## [0.2.0] - 2026-01-30
+
+### Added
+- New `scripts/common.sh` library for shared logging and utility functions.
+- New `tests/validate_install.sh` script for verifying the system state after installation.
+- New `scripts/06-gnome.sh` for automated GNOME settings restoration via `dconf`.
+- New `scripts/99-cleanup.sh` for system pruning (`rpm-ostree` and Flatpak).
+- Automated toolbox creation (named 'default') in `scripts/03-userspace.sh`.
+
+### Changed
+- **Hardening:** Switched to `mktemp` for all temporary downloads in `scripts/03-userspace.sh`.
+- **Robustness:** Added `--or-update` to Flatpak installations to ensure idempotency.
+- **Portability:** Replaced hardcoded home paths in `.bashrc` with `$HOME`.
+
+### Fixed
+- Improved Quarto installation logic with a fallback to `~/.local/bin` if `/usr/local/bin` is immutable.
+
 ## [0.1.0] - 2026-01-30
 
 ### Added
