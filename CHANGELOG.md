@@ -9,45 +9,55 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 
 ### Added
 
-- Documentation in `README.md` and `scripts/06-gnome.sh` for updating GNOME settings using `dconf dump`.
+- Documentation in `README.md` and `scripts/06-gnome.sh` for updating GNOME
+  settings using `dconf dump`.
 
 ### Changed
 
-- Updated GNOME settings in `gnome/dconf-settings.ini` to include custom keybindings (Ptyxis, 1Password), teal accent color, and improved notification/touchpad settings.
+- Updated GNOME settings in `gnome/dconf-settings.ini` to include custom
+  keybindings (Ptyxis, 1Password), teal accent color, and improved
+  notification/touchpad settings.
 
 ## [0.2.5] - 2026-01-30
 
 ### Added
 
-- Created `AGENTS.md` to provide high-level context for LLM agents working on the project.
+- Created `AGENTS.md` to provide high-level context for LLM agents working
+  on the project.
 
 ### Fixed
 
-- Improved `scripts/02-layered-pkgs.sh` by adding the `--idempotent` flag to `rpm-ostree install`, preventing script failure if packages are already layered.
+- Improved `scripts/02-layered-pkgs.sh` by adding the `--idempotent` flag to
+  `rpm-ostree install`, preventing script failure if packages are already
+  layered.
 
 ## [0.2.4] - 2026-01-30
 
 ### Changed
 
-- Stopped tracking `.ssh/known_hosts` in Git and added it to `.gitignore` to reduce noise and improve security.
+- Stopped tracking `.ssh/known_hosts` in Git and added it to `.gitignore`
+  to reduce noise and improve security.
 
 ## [0.2.3] - 2026-01-30
 
 ### Changed
 
-- Updated `tests/validate_install.sh` to include checks for `opencode` and GNOME settings backup.
+- Updated `tests/validate_install.sh` to include checks for `opencode` and
+  GNOME settings backup.
 
 ## [0.2.2] - 2026-01-30
 
 ### Fixed
 
-- Improved `setup.sh` robustness by making it location-aware (can be run from any directory).
+- Improved `setup.sh` robustness by making it location-aware (can be run from
+  any directory).
 
 ## [0.2.1] - 2026-01-30
 
 ### Fixed
 
-- Fixed syntax errors in `scripts/01-rpmfusion.sh` caused by missing line continuation backslashes.
+- Fixed syntax errors in `scripts/01-rpmfusion.sh` caused by missing line
+  continuation backslashes.
 - Standardized logging using `common.sh` across all setup scripts.
 - Fixed 1Password repository installation block in `scripts/02-layered-pkgs.sh`.
 
@@ -69,13 +79,15 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 
 ### Fixed
 
-- Improved Quarto installation logic with a fallback to `~/.local/bin` if `/usr/local/bin` is immutable.
+- Improved Quarto installation logic with a fallback to `~/.local/bin` if
+  `/usr/local/bin` is immutable.
 
 ## [0.1.0] - 2026-01-30
 
 ### Added
 
-- New master orchestration script `setup.sh` that supports state-tracking and resumes after system reboots.
+- New master orchestration script `setup.sh` that supports state-tracking
+  and resumes after system reboots.
 - Modularized setup scripts in `scripts/` directory:
   - `01-rpmfusion.sh`: Automated RPM Fusion repository configuration.
   - `02-layered-pkgs.sh`: Consolidated `rpm-ostree` package layering.
@@ -91,8 +103,10 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 
 ### Fixed
 
-- Fixed hardcoded Fedora versions in repository URLs to use dynamic version detection (`rpm -E %fedora`).
-- Improved dotfiles linking safety by adding backups for existing `.bashrc` and `.gitconfig`.
+- Fixed hardcoded Fedora versions in repository URLs to use dynamic version
+  detection (`rpm -E %fedora`).
+- Improved dotfiles linking safety by adding backups for existing `.bashrc`
+  and `.gitconfig`.
 
 ### Removed
 
