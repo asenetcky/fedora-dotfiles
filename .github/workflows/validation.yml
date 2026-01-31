@@ -1,0 +1,23 @@
+name: Validation CI
+
+on:
+  push:
+    branches: [ main, master ]
+  pull_request:
+
+jobs:
+  syntax-check:
+    name: Bash Syntax Check
+    runs-on: ubuntu-latest
+    container: fedora:latest
+    steps:
+      - name: Install Git
+        run: dnf install -y git
+
+      - uses: actions/checkout@v4
+
+      - name: Check Syntax (bash -n)
+        run: |
+          # Find all .sh files and run bash -n on them
+          find . -name "*.sh" -print0 | xargs -0 -I {} bash -n {}
+          echo "Syntax check passed for all scripts."

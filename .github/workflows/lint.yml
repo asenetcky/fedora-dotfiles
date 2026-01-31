@@ -1,0 +1,60 @@
+name: Lint & Style
+
+on:
+  push:
+    branches: [ main, master ]
+  pull_request:
+
+jobs:
+  shellcheck:
+    name: ShellCheck
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+      - name: Run ShellCheck
+        uses: ludeeus/action-shellcheck@master
+        with:
+          scandir: './'
+          severity: warning
+
+  stylua:
+    name: Stylua (Lua)
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+      - name: Stylua
+        uses: JohnnyMorganz/stylua-action@v3
+        with:
+          token: ${{ secrets.GITHUB_TOKEN }}
+          version: latest
+          args: --check .
+
+  markdown:
+    name: Markdown Lint
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+      - name: markdownlint-cli2-action
+        uses: DavidAnson/markdownlint-cli2-action@v16
+        with:
+          globs: '**/*.md'
+
+  actionlint:
+    name: Actionlint
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+      - name: Check workflow files
+        uses: reviewdog/action-actionlint@v1
+
+  # Basic JSON/YAML validation can be done with Prettier
+  prettier:
+    name: Prettier (JSON/YAML)
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+      - name: Prettier Check
+        uses: actions/setup-node@v4
+        with:
+          node-version: '20'
+      - run: npx prettier --check "**/*.{json,yaml,yml}" "!lazy-lock.json"
