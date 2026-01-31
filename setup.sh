@@ -3,11 +3,15 @@
 # Master Setup Script for Fedora Silverblue Dotfiles
 # Orchestrates the setup across multiple reboots.
 
+# Get the directory where the script is located
+SCRIPT_DIR="$(cd "$(dirname "${BASH_SOURCE[0]}")" && pwd)"
+cd "$SCRIPT_DIR"
+
 STATE_FILE="$HOME/.config/dotfiles-setup-state"
 mkdir -p "$(dirname "$STATE_FILE")"
 
 # Ensure scripts are executable
-chmod +x scripts/*.sh
+chmod +x "$SCRIPT_DIR/scripts"/*.sh
 
 get_state() {
     if [ -f "$STATE_FILE" ]; then
@@ -27,7 +31,7 @@ echo "Current Setup State: $CURRENT_STATE"
 
 case "$CURRENT_STATE" in
     "INIT")
-        ./scripts/01-rpmfusion.sh
+        "$SCRIPT_DIR/scripts/01-rpmfusion.sh"
         if [ $? -eq 0 ]; then
             set_state "01_DONE"
             echo "---------------------------------------------------"
@@ -47,7 +51,7 @@ case "$CURRENT_STATE" in
         ;;
     
     "01_DONE")
-        ./scripts/02-layered-pkgs.sh
+        "$SCRIPT_DIR/scripts/02-layered-pkgs.sh"
         if [ $? -eq 0 ]; then
             set_state "02_DONE"
             echo "---------------------------------------------------"
@@ -69,19 +73,19 @@ case "$CURRENT_STATE" in
     "02_DONE")
         # Run remaining steps sequentially as they don't require reboots between them
         echo "Running Userspace Setup (Step 03)..."
-        ./scripts/03-userspace.sh
+        "$SCRIPT_DIR/scripts/03-userspace.sh"
         
         echo "Running Flatpak Setup (Step 04)..."
-        ./scripts/04-flatpak.sh
+        "$SCRIPT_DIR/scripts/04-flatpak.sh"
         
         echo "Running Dotfiles Stow (Step 05)..."
-        ./scripts/05-dotfiles.sh
+        "$SCRIPT_DIR/scripts/05-dotfiles.sh"
         
         echo "Running Gnome Settings Restore (Step 06)..."
-        ./scripts/06-gnome.sh
+        "$SCRIPT_DIR/scripts/06-gnome.sh"
 
         echo "Running System Cleanup (Step 99)..."
-        ./scripts/99-cleanup.sh
+        "$SCRIPT_DIR/scripts/99-cleanup.sh"
         
         set_state "ALL_DONE"
         echo "---------------------------------------------------"
