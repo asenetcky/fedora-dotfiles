@@ -12,10 +12,12 @@ fi
 # See /usr/share/doc/bash-doc/examples in the bash-doc package.
 
 if [ -f ~/.bash_aliases ]; then
+  # shellcheck source=.bash_aliases
   . ~/.bash_aliases
 fi
 
 if [ -f ~/.bash_functions ]; then
+  # shellcheck source=.bash_functions
   . ~/.bash_functions
 fi
 
@@ -32,6 +34,7 @@ export PATH
 if [ -d ~/.bashrc.d ]; then
   for rc in ~/.bashrc.d/*; do
     if [ -f "$rc" ]; then
+      # shellcheck source=/dev/null
       . "$rc"
     fi
   done
