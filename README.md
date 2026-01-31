@@ -1,10 +1,13 @@
 # My dotfiles
 
-This repository contains dotfiles and setup scripts for my Fedora systems, specifically optimized for **Fedora Silverblue**.
+This repository contains dotfiles and setup scripts for my Fedora systems,
+specifically optimized for **Fedora Silverblue**.
 
 ## Setup Instructions
 
-The setup process is orchestrated by `setup.sh`. Since Fedora Silverblue requires reboots after layering packages, the script manages the state across these reboots.
+The setup process is orchestrated by `setup.sh`. Since Fedora Silverblue
+requires reboots after layering packages, the script manages the state across
+these reboots.
 
 ### 1. Clone the repository
 
@@ -25,17 +28,23 @@ cd dotfiles
 The script will guide you through the phases:
 
 1. **RPM Fusion Setup:** Installs repositories. *Requires Reboot.*
-2. **Layered Packages:** Installs core system packages (Neovim, Stow, Tailscale, etc.) via `rpm-ostree`. *Requires Reboot.*
-3. **Userspace & Flatpaks:** Installs user-local tools (uv, Quarto, Fonts, Starship) and Flatpaks (VS Code, etc.). *No Reboot Required.*
+2. **Layered Packages:** Installs core system packages (Neovim, Stow,
+   Tailscale, etc.) via `rpm-ostree`. *Requires Reboot.*
+3. **Userspace & Flatpaks:** Installs user-local tools (uv, Quarto, Fonts,
+   Starship) and Flatpaks (VS Code, etc.). *No Reboot Required.*
 4. **Dotfiles:** Stows the configuration files.
 
-When the script asks you to reboot, say **Yes**. After rebooting, open a terminal, navigate back to `~/dotfiles`, and run `./setup.sh` again. It will automatically detect the previous step was finished and continue to the next one.
+When the script asks you to reboot, say **Yes**. After rebooting, open a
+terminal, navigate back to `~/dotfiles`, and run `./setup.sh` again. It will
+automatically detect the previous step was finished and continue to the next
+one.
 
 ## Installed Tools
 
 The setup script installs and configures:
 
-* **System/Layered:** Neovim, Stow, FZF, Fastfetch, Btop, Tailscale, Gh, Bat, 1Password, Lazygit.
+* **System/Layered:** Neovim, Stow, FZF, Fastfetch, Btop, Tailscale, Gh, Bat,
+  1Password, Lazygit.
 * **Userspace:** uv, Air, Pls, JetBrainsMono Nerd Font, Starship, Opencode, Quarto.
 * **Flatpaks:** VS Code, LibreOffice, DevPod, Podman Desktop, Zed, Flatseal.
 
@@ -49,10 +58,12 @@ If you only want to link the configuration files without running the full instal
 
 ## Updating GNOME Settings
 
-If you make changes to your GNOME environment (e.g., keyboard shortcuts, themes, extensions) and want to save them back to this repository, run:
+If you make changes to your GNOME environment (e.g., keyboard shortcuts,
+themes, extensions) and want to save them back to this repository, run:
 
 ```bash
 dconf dump / > gnome/dconf-settings.ini
 ```
 
-This will overwrite the existing `ini` file with your current system settings. You can then commit and push these changes.
+This will overwrite the existing `ini` file with your current system settings.
+You can then commit and push these changes.
