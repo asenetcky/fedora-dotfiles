@@ -46,3 +46,13 @@ If you only want to link the configuration files without running the full instal
 ```bash
 ./scripts/05-dotfiles.sh
 ```
+
+## Updating GNOME Settings
+
+If you make changes to your GNOME environment (e.g., keyboard shortcuts, themes, extensions) and want to save them back to this repository, run:
+
+```bash
+dconf dump / > gnome/dconf-settings.ini
+```
+
+This will overwrite the existing `ini` file with your current system settings. You can then commit and push these changes.
