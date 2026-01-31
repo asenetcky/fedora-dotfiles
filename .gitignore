@@ -1,4 +1,7 @@
-*.pub
 *.env
 .tailscale
 .ssh/known_hosts
+.ssh/*.pub
+
+# Cosign private key (never commit!)
+cosign.key
