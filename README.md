@@ -47,19 +47,11 @@ OCI image via GitHub Actions and rebase your system to it. This effectively
 
 ### Prerequisites
 
-1. **Generate Signing Keys:**
-   You need `cosign` to generate keys.
+1. **Fork this repository** to your own GitHub account.
 
-   ```bash
-   cosign generate-key-pair
-   ```
-
-2. **Configure GitHub Secrets:**
-   Add the content of `cosign.key` (private key) as a repository secret named
-   `SIGNING_SECRET`.
-
-3. **Push Changes:**
-   Push this repository to GitHub. The Action will build your image.
+2. **Push changes** to trigger the GitHub Actions workflow, which will
+   automatically build your custom image and publish it to GitHub Container
+   Registry.
 
 ### Usage
 
@@ -94,6 +86,13 @@ dotfiles:
 ./scripts/05-dotfiles.sh
 ./scripts/06-gnome.sh
 ```
+
+> **Note on Image Signing:** This setup does not use image signing (cosign).
+> For personal use where you control the entire pipeline (repository → build →
+> registry → deployment), signing provides minimal additional security value.
+> If you later need to share images publicly or require compliance features,
+> you can enable signing by following the [BlueBuild signing
+> documentation](https://blue-build.org/how-to/cosign/).
 
 ## Installed Tools
 
