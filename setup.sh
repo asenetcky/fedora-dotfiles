@@ -4,7 +4,8 @@
 # Orchestrates the setup across multiple reboots.
 
 # Get the directory where the script is located
-SCRIPT_DIR="$(cd "$(dirname "${BASH_SOURCE[0]}")" && pwd)"
+SCRIPT_DIR="$(cd "
+$(dirname "${BASH_SOURCE[0]}")" && pwd)"
 cd "$SCRIPT_DIR" || exit 1
 
 STATE_FILE="$HOME/.config/dotfiles-setup-state"
