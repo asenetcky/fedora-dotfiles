@@ -1,8 +1,9 @@
+#!/bin/bash
 # ls
 alias ll='pls -a -d -d size'
 
 # fedora toolbox
-alias istoolbx='[ -f "/run/.toolboxenv" ] && grep -oP "(?<=name=\")[^\";]+" /run/.containerenv'
+alias istoolbx='[ -f "/run/.toolboxenv" ] && grep -oP "(?<=name=\")[^"]+" /run/.containerenv'
 # alias dev-base="toolbox enter dev-base"
 # alias rlang="toolbox enter rlang"
 
