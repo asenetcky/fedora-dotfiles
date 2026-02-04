@@ -23,6 +23,7 @@ FLATPAKS=(
   com.github.tchx84.Flatseal
   dev.zed.Zed
   org.mozilla.firfox
+  net.trowell.typesetter
 )
 
 log_info "Installing Flatpaks: ${FLATPAKS[*]}"
