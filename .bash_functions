@@ -17,7 +17,7 @@ function is_toolbox() {
 # podman wrapper around typst
 function typst() {
     podman run --rm -it \
-        -v "$(pwd):/app:Z" \
+        -v "$(pwd):/app" \
         -w /app \
         ghcr.io/typst/typst \
         "$@"

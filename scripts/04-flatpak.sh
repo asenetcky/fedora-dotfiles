@@ -7,21 +7,22 @@ log_info ">>> Setting up Flatpaks..."
 
 # Add Flathub
 if ! flatpak remote-list | grep -q "flathub"; then
-    log_info "Adding Flathub remote..."
-    flatpak remote-add --if-not-exists flathub https://flathub.org/repo/flathub.flatpakrepo
+  log_info "Adding Flathub remote..."
+  flatpak remote-add --if-not-exists flathub https://flathub.org/repo/flathub.flatpakrepo
 else
-    log_info "Flathub remote already exists."
+  log_info "Flathub remote already exists."
 fi
 
 # Install Flatpaks
 FLATPAKS=(
-    sh.loft.devpod
-    org.libreoffice.LibreOffice
-    com.github.marhkb.Pods
-    com.visualstudio.code
-    io.podman_desktop.PodmanDesktop
-    com.github.tchx84.Flatseal
-    dev.zed.Zed
+  sh.loft.devpod
+  org.libreoffice.LibreOffice
+  com.github.marhkb.Pods
+  com.visualstudio.code
+  io.podman_desktop.PodmanDesktop
+  com.github.tchx84.Flatseal
+  dev.zed.Zed
+  org.mozilla.firfox
 )
 
 log_info "Installing Flatpaks: ${FLATPAKS[*]}"

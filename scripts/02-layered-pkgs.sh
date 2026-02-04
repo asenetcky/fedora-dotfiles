@@ -7,9 +7,9 @@ log_info ">>> Setting up Layered Applications..."
 
 # 1Password Repo
 if [ ! -f /etc/yum.repos.d/1password.repo ]; then
-    log_info "Adding 1Password repo..."
-    sudo rpm --import https://downloads.1password.com/linux/keys/1password.asc
-    sudo sh -c 'cat <<EOF > /etc/yum.repos.d/1password.repo
+  log_info "Adding 1Password repo..."
+  sudo rpm --import https://downloads.1password.com/linux/keys/1password.asc
+  sudo sh -c 'cat <<EOF > /etc/yum.repos.d/1password.repo
 [1password]
 name=1Password Stable Channel
 baseurl=https://downloads.1password.com/linux/rpm/stable/\$basearch
@@ -22,25 +22,31 @@ fi
 
 # Lazygit Repo (COPR)
 if [ ! -f /etc/yum.repos.d/lazygit.repo ]; then
-    log_info "Adding Lazygit repo..."
-    FEDORA_VERSION=$(rpm -E %fedora)
-    sudo curl -LsSf "https://copr.fedorainfracloud.org/coprs/dejan/lazygit/repo/fedora-${FEDORA_VERSION}/dejan-lazygit-fedora-${FEDORA_VERSION}.repo" -o /etc/yum.repos.d/lazygit.repo
+  log_info "Adding Lazygit repo..."
+  FEDORA_VERSION=$(rpm -E %fedora)
+  sudo curl -LsSf "https://copr.fedorainfracloud.org/coprs/dejan/lazygit/repo/fedora-${FEDORA_VERSION}/dejan-lazygit-fedora-${FEDORA_VERSION}.repo" -o /etc/yum.repos.d/lazygit.repo
 fi
 
 # Install Packages
 PKGS=(
-    btop
-    fastfetch
-    fzf
-    gh
-    neovim
-    stow
-    tailscale
-    bat
-    1password
-    1password-cli
-    libavcodec-freeworld
-    lazygit
+  btop
+  fastfetch
+  fzf
+  gh
+  neovim
+  stow
+  tailscale
+  bat
+  1password
+  1password-cli
+  libavcodec-freeworld
+  lazygit
+  vlc
+  vlc-cli
+  vlc-plugins-freeworld
+  vlc-plugin-pipewire
+  vlc-plugin-gstreamer
+  vlc-plugin-ffmpeg
 )
 
 log_info "Installing/Layering packages: ${PKGS[*]}"
