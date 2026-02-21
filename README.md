@@ -39,6 +39,62 @@ terminal, navigate back to `~/dotfiles`, and run `./setup.sh` again. It will
 automatically detect the previous step was finished and continue to the next
 one.
 
+## Alternative: BlueBuild Setup (Cloud Native)
+
+Instead of running local scripts to layer packages, you can build a custom
+OCI image via GitHub Actions and rebase your system to it. This effectively
+"bakes" your system packages into the OS image.
+
+### Prerequisites
+
+1. **Generate Signing Keys:**
+   You need `cosign` to generate keys.
+
+   ```bash
+   cosign generate-key-pair
+   ```
+
+2. **Configure GitHub Secrets:**
+   Add the content of `cosign.key` (private key) as a repository secret named
+   `SIGNING_SECRET`.
+
+3. **Push Changes:**
+   Push this repository to GitHub. The Action will build your image.
+
+### Usage
+
+Once the image is built (check GitHub Actions tab), rebase your system:
+
+1. **Pin your current deployment** (so you can easily rollback if needed):
+
+   ```bash
+   sudo ostree admin pin 0
+   ```
+
+1. **Rebase to your custom image**:
+
+   ```bash
+   rpm-ostree rebase ostree-unverified-registry:ghcr.io/your-username/silverblue-custom:latest
+   ```
+
+   *Note: Replace `your-username` with your GitHub username (lowercase).*
+
+1. **Reboot**:
+
+   ```bash
+   systemctl reboot
+   ```
+
+After rebooting, your system will have all layered packages and Flatpaks
+pre-installed. You still need to run the userspace setup and link your
+dotfiles:
+
+```bash
+./scripts/03-userspace.sh
+./scripts/05-dotfiles.sh
+./scripts/06-gnome.sh
+```
+
 ## Installed Tools
 
 The setup script installs and configures:

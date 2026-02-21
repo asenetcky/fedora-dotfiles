@@ -1,0 +1,48 @@
+name: silverblue-custom
+description: Custom Fedora Silverblue image with dotfiles tooling
+base-image: silverblue
+image-version: 43
+
+modules:
+  - type: files
+    files:
+      - source: config/files/etc
+        destination: /etc
+
+  - type: rpm-ostree
+    install:
+      # RPM Fusion (Free & Non-free)
+      - https://mirrors.rpmfusion.org/free/fedora/rpmfusion-free-release-43.noarch.rpm
+      - https://mirrors.rpmfusion.org/nonfree/fedora/rpmfusion-nonfree-release-43.noarch.rpm
+
+  - type: rpm-ostree
+    install:
+      - btop
+      - fastfetch
+      - fzf
+      - gh
+      - neovim
+      - stow
+      - tailscale
+      - bat
+      - 1password
+      - 1password-cli
+      - libavcodec-freeworld
+      - lazygit
+
+  - type: default-flatpaks
+    notify: true
+    system:
+      repo-url: https://dl.flathub.org/repo/flathub.flatpakrepo
+      repo-name: flathub
+      repo-title: Flathub
+      install:
+        - sh.loft.devpod
+        - org.libreoffice.LibreOffice
+        - com.github.marhkb.Pods
+        - com.visualstudio.code
+        - io.podman_desktop.PodmanDesktop
+        - com.github.tchx84.Flatseal
+        - dev.zed.Zed
+
+  - type: signing
