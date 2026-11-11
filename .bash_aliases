@@ -23,18 +23,6 @@ alias lg='lazygit'
 alias gb='git branch'
 alias gba='git branch -a'
 
-# fedora coreos
-alias butane='podman run --rm --interactive         \
-              --security-opt label=disable          \
-              --volume "${PWD}:/pwd" --workdir /pwd \
-              quay.io/coreos/butane:release'
-
-# gemini-cli
-alias gemini='npx https://github.com/google-gemini/gemini-cli'
-
-# copilot-cli
-alias copilot='npx @github/copilot'
-
 # marimo
 alias mam="uvx marimo -y edit --sandbox --watch"
 
