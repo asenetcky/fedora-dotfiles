@@ -1,13 +1,24 @@
 # My dotfiles
 
-This repository contains dotfiles and setup scripts for my Fedora systems,
-specifically optimized for **Fedora Silverblue**.
+This repository contains dotfiles and setup scripts for my Fedora systems.
+It works on both **Fedora Silverblue** (and other atomic desktops) and
+**Fedora Workstation**.
+
+The variant is detected automatically (`/run/ostree-booted`). To force one:
+
+```bash
+DOTFILES_VARIANT=workstation ./setup.sh   # or: atomic
+```
+
+On atomic systems packages are layered with `rpm-ostree` and the script
+pauses for reboots; on Workstation it uses `dnf` and runs straight through.
 
 ## Setup Instructions
 
 The setup process is orchestrated by `setup.sh`. Since Fedora Silverblue
 requires reboots after layering packages, the script manages the state across
-these reboots.
+these reboots. If a step fails, fix the problem and re-run `./setup.sh`; it
+resumes from the failed step.
 
 ### 1. Clone the repository
 
@@ -31,7 +42,7 @@ The script will guide you through the phases:
 2. **Layered Packages:** Installs core system packages (Neovim, Stow,
    Tailscale, etc.) via `rpm-ostree`. *Requires Reboot.*
 3. **Userspace & Flatpaks:** Installs user-local tools (uv, Quarto, Fonts,
-   Starship) and Flatpaks (VS Code, etc.). *No Reboot Required.*
+   Opencode) and Flatpaks (Zed, Obsidian, etc.). *No Reboot Required.*
 4. **Dotfiles:** Stows the configuration files.
 
 When the script asks you to reboot, say **Yes**. After rebooting, open a
@@ -43,10 +54,12 @@ one.
 
 The setup script installs and configures:
 
-* **System/Layered:** Neovim, Stow, FZF, Fastfetch, Btop, Tailscale, Gh, Bat,
-  1Password, Lazygit.
-* **Userspace:** uv, Air, Pls, JetBrainsMono Nerd Font, Starship, Opencode, Quarto.
-* **Flatpaks:** VS Code, LibreOffice, DevPod, Podman Desktop, Zed, Flatseal.
+* **System (core):** Neovim, Stow, Gh, FZF, Lazygit, Tailscale, 1Password CLI.
+* **System (quality of life):** Bat, Btop, Fastfetch.
+* **System (media):** VLC + RPM Fusion codecs.
+* **Vendor RPMs:** 1Password, Positron.
+* **Userspace:** uv, Pls, JetBrainsMono Nerd Font, Opencode, Quarto.
+* **Flatpaks:** LibreOffice, Flatseal, Zed, Typesetter, Gear Lever, Obsidian.
 
 ## Manual Dotfiles Usage
 
@@ -55,15 +68,3 @@ If you only want to link the configuration files without running the full instal
 ```bash
 ./scripts/05-dotfiles.sh
 ```
-
-## Updating GNOME Settings
-
-If you make changes to your GNOME environment (e.g., keyboard shortcuts,
-themes, extensions) and want to save them back to this repository, run:
-
-```bash
-dconf dump / > gnome/dconf-settings.ini
-```
-
-This will overwrite the existing `ini` file with your current system settings.
-You can then commit and push these changes.
