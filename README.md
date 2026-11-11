@@ -24,8 +24,8 @@ resumes from the failed step.
 
 ```bash
 cd ~
-git clone https://github.com/asenetcky/dotfiles.git
-cd dotfiles
+git clone https://github.com/asenetcky/fedora-dotfiles.git
+cd fedora-dotfiles
 ```
 
 ### 2. Run the Setup Script
@@ -38,23 +38,29 @@ cd dotfiles
 
 The script will guide you through the phases:
 
-1. **RPM Fusion Setup:** Installs repositories. *Requires Reboot.*
-2. **Layered Packages:** Installs core system packages (Neovim, Stow,
-   Tailscale, etc.) via `rpm-ostree`. *Requires Reboot.*
-3. **Userspace & Flatpaks:** Installs user-local tools (uv, Quarto, Fonts,
-   Opencode) and Flatpaks (Zed, Obsidian, etc.). *No Reboot Required.*
-4. **Dotfiles:** Stows the configuration files.
+1. **RPM Fusion Setup:** Installs repositories. *Reboot on atomic.*
+2. **System Packages:** Installs core system packages (Neovim, Stow,
+   Tailscale, etc.) via `rpm-ostree` or `dnf`. *Reboot on atomic.*
+3. **Userspace:** Installs user-local tools (uv, Quarto, Fonts, Opencode)
+   and enables `tailscaled`.
+4. **Flatpaks:** Installs apps from Flathub (Zed, Obsidian, etc.). Apps that
+   are already installed are skipped.
+5. **Dotfiles:** Stows the configuration files (see below).
+6. **Cleanup:** Removes unused Flatpak runtimes and `rpm-ostree` caches.
 
-When the script asks you to reboot, say **Yes**. After rebooting, open a
-terminal, navigate back to `~/dotfiles`, and run `./setup.sh` again. It will
-automatically detect the previous step was finished and continue to the next
-one.
+When the script asks you to reboot, answer **y**. After rebooting, open a
+terminal, go back to `~/fedora-dotfiles`, and run `./setup.sh` again. It
+picks up from the next step.
+
+Once everything has run, the state is marked as complete. Running
+`./setup.sh` again offers to reset the state so you can start over.
 
 ## Installed Tools
 
 The setup script installs and configures:
 
-* **System (core):** Neovim, Stow, Gh, FZF, Lazygit, Tailscale, 1Password CLI.
+* **System (core):** Neovim, Stow, GitHub CLI, FZF, Lazygit, Tailscale,
+  1Password CLI (plus Toolbox on Workstation).
 * **System (quality of life):** Bat, Btop, Fastfetch.
 * **System (media):** VLC + RPM Fusion codecs.
 * **Vendor RPMs:** 1Password, Positron.
@@ -63,8 +69,12 @@ The setup script installs and configures:
 
 ## Manual Dotfiles Usage
 
-If you only want to link the configuration files without running the full installer:
+If you only want to link the configuration files without running the full
+installer (requires `stow`):
 
 ```bash
 ./scripts/05-dotfiles.sh
 ```
+
+Existing files that would conflict with a link are renamed to
+`<name>.bak.<timestamp>` first, so nothing is overwritten.
