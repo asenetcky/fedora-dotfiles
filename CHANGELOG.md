@@ -5,6 +5,14 @@ All notable changes to this project will be documented in this file.
 The format is based on [Keep a Changelog](https://keepachangelog.com/en/1.1.0/),
 and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0.html).
 
+## [0.3.1](https://github.com/asenetcky/fedora-dotfiles/compare/v0.3.0...v0.3.1) (2026-11-11)
+
+
+### Bug Fixes
+
+* keep contents of symlinked dirs when stowing dotfiles ([#21](https://github.com/asenetcky/fedora-dotfiles/issues/21)) ([4c9fbda](https://github.com/asenetcky/fedora-dotfiles/commit/4c9fbda3f28a53be57d93fd2e0f0fa7622a71ae0))
+* skip already-installed flatpaks ([#20](https://github.com/asenetcky/fedora-dotfiles/issues/20)) ([3990f65](https://github.com/asenetcky/fedora-dotfiles/commit/3990f658f806dc929f9bab93162512bf791650dc))
+
 ## [0.3.0](https://github.com/asenetcky/fedora-dotfiles/compare/v0.2.6...v0.3.0) (2026-11-11)
 
 
