@@ -6,6 +6,7 @@
 \.github
 \.stow-local-ignore
 \.markdownlint\.json
+\.markdownlint-cli2\.jsonc
 \.release-please-manifest\.json
 ^/release-please-config\.json
 ^/README.*
