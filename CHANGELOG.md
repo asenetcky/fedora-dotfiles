@@ -5,6 +5,30 @@ All notable changes to this project will be documented in this file.
 The format is based on [Keep a Changelog](https://keepachangelog.com/en/1.1.0/),
 and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0.html).
 
+## [0.3.0](https://github.com/asenetcky/fedora-dotfiles/compare/v0.2.6...v0.3.0) (2026-11-11)
+
+
+### Features
+
+* add dependabot configuration for automated updates ([07258a4](https://github.com/asenetcky/fedora-dotfiles/commit/07258a499a096f3520c1917b55f0d71f1b113396))
+* add flatpak mozilla and layered vlc and codecs ([758d847](https://github.com/asenetcky/fedora-dotfiles/commit/758d8473de239276bfa328c919f1b483a52fa0a9))
+* add Gear Lever and Obsidian Flatpaks ([2df72cf](https://github.com/asenetcky/fedora-dotfiles/commit/2df72cf0794dcf2b7f637f18511520956c769828))
+* add github actions for linting, validation, and automated releases ([0cdf1ab](https://github.com/asenetcky/fedora-dotfiles/commit/0cdf1ab35621d2b1d14982e5a174dbda01584df9))
+* add typsetter for typst ([68a91df](https://github.com/asenetcky/fedora-dotfiles/commit/68a91df6b0ca65bc29f288e76e4689693ef5a56a))
+* install Positron and 1Password from vendor RPMs ([2df72cf](https://github.com/asenetcky/fedora-dotfiles/commit/2df72cf0794dcf2b7f637f18511520956c769828))
+* rework package selection into core, quality-of-life and media groups ([2df72cf](https://github.com/asenetcky/fedora-dotfiles/commit/2df72cf0794dcf2b7f637f18511520956c769828))
+* support Fedora Workstation alongside Silverblue ([2df72cf](https://github.com/asenetcky/fedora-dotfiles/commit/2df72cf0794dcf2b7f637f18511520956c769828))
+
+
+### Bug Fixes
+
+* download only the JetBrainsMono Nerd Font archive instead of cloning the nerd-fonts repo ([2df72cf](https://github.com/asenetcky/fedora-dotfiles/commit/2df72cf0794dcf2b7f637f18511520956c769828))
+* enable tailscaled after installing tailscale ([2df72cf](https://github.com/asenetcky/fedora-dotfiles/commit/2df72cf0794dcf2b7f637f18511520956c769828))
+* guard fzf and fastfetch in .bashrc so shells without them don't error ([2df72cf](https://github.com/asenetcky/fedora-dotfiles/commit/2df72cf0794dcf2b7f637f18511520956c769828))
+* repair setup orchestration and stow linking ([2df72cf](https://github.com/asenetcky/fedora-dotfiles/commit/2df72cf0794dcf2b7f637f18511520956c769828))
+* run the RPM Fusion package swap after the reboot, not before ([2df72cf](https://github.com/asenetcky/fedora-dotfiles/commit/2df72cf0794dcf2b7f637f18511520956c769828))
+* stop reinstalling opencode on every run ([2df72cf](https://github.com/asenetcky/fedora-dotfiles/commit/2df72cf0794dcf2b7f637f18511520956c769828))
+
 ## [0.2.6] - 2026-01-30
 
 ### Added
