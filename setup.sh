@@ -1,101 +1,53 @@
 #!/bin/bash
 
-# Master Setup Script for Fedora Silverblue Dotfiles
-# Orchestrates the setup across multiple reboots.
+# Master Setup Script for Fedora dotfiles (Silverblue/atomic or Workstation).
+# On atomic systems it orchestrates the setup across multiple reboots.
 
-# Get the directory where the script is located
-SCRIPT_DIR="$(cd "
-$(dirname "${BASH_SOURCE[0]}")" && pwd)"
+SCRIPT_DIR="$(cd "$(dirname "${BASH_SOURCE[0]}")" && pwd)"
 cd "$SCRIPT_DIR" || exit 1
+
+# shellcheck source=scripts/common.sh
+source "$SCRIPT_DIR/scripts/common.sh"
 
 STATE_FILE="$HOME/.config/dotfiles-setup-state"
 mkdir -p "$(dirname "$STATE_FILE")"
 
-# Ensure scripts are executable
-chmod +x "$SCRIPT_DIR/scripts"/*.sh
+# Ordered list of steps (script names without .sh)
+STEPS=(
+  01-rpmfusion
+  02-layered-pkgs
+  03-userspace
+  04-flatpak
+  05-dotfiles
+  99-cleanup
+)
 
+# Steps that need a reboot afterwards on atomic systems
+needs_reboot() {
+  is_atomic && { [ "$1" = "01-rpmfusion" ] || [ "$1" = "02-layered-pkgs" ]; }
+}
+
+# State file holds the last completed step (or INIT / ALL_DONE).
 get_state() {
-  if [ -f "$STATE_FILE" ]; then
-    cat "$STATE_FILE"
-  else
-    echo "INIT"
-  fi
+  local state="INIT"
+  [ -f "$STATE_FILE" ] && state="$(cat "$STATE_FILE")"
+  # Migrate state values from older versions of this script
+  case "$state" in
+  01_DONE) state="01-rpmfusion" ;;
+  02_DONE) state="02-layered-pkgs" ;;
+  esac
+  echo "$state"
 }
 
 set_state() {
   echo "$1" >"$STATE_FILE"
 }
 
-CURRENT_STATE=$(get_state)
+CURRENT_STATE="$(get_state)"
+log_info "Detected variant: $VARIANT"
+log_info "Current setup state: $CURRENT_STATE"
 
-echo "Current Setup State: $CURRENT_STATE"
-
-case "$CURRENT_STATE" in
-"INIT")
-  "$SCRIPT_DIR/scripts/01-rpmfusion.sh"
-  if [ $? -eq 0 ]; then
-    set_state "01_DONE"
-    echo "---------------------------------------------------"
-    echo "Step 01 (RPM Fusion) finished successfully."
-    echo "A system reboot is required to activate the new repositories."
-    echo "Please reboot and run this script again."
-    echo "---------------------------------------------------"
-    read -p "Reboot now? (y/n) " -n 1 -r
-    echo
-    if [[ $REPLY =~ ^[Yy]$ ]]; then
-      systemctl reboot
-    fi
-  else
-    echo "Step 01 failed."
-    exit 1
-  fi
-  ;;
-
-"01_DONE")
-  "$SCRIPT_DIR/scripts/02-layered-pkgs.sh"
-  if [ $? -eq 0 ]; then
-    set_state "02_DONE"
-    echo "---------------------------------------------------"
-    echo "Step 02 (Layered Packages) finished successfully."
-    echo "A system reboot is required to boot into the new deployment."
-    echo "Please reboot and run this script again."
-    echo "---------------------------------------------------"
-    read -p "Reboot now? (y/n) " -n 1 -r
-    echo
-    if [[ $REPLY =~ ^[Yy]$ ]]; then
-      systemctl reboot
-    fi
-  else
-    echo "Step 02 failed."
-    exit 1
-  fi
-  ;;
-
-"02_DONE")
-  # Run remaining steps sequentially as they don't require reboots between them
-  echo "Running Userspace Setup (Step 03)..."
-  "$SCRIPT_DIR/scripts/03-userspace.sh"
-
-  echo "Running Flatpak Setup (Step 04)..."
-  "$SCRIPT_DIR/scripts/04-flatpak.sh"
-
-  echo "Running Dotfiles Stow (Step 05)..."
-  "$SCRIPT_DIR/scripts/05-dotfiles.sh"
-
-  echo "Running Gnome Settings Restore (Step 06)..."
-  "$SCRIPT_DIR/scripts/06-gnome.sh"
-
-  echo "Running System Cleanup (Step 99)..."
-  "$SCRIPT_DIR/scripts/99-cleanup.sh"
-
-  set_state "ALL_DONE"
-  echo "---------------------------------------------------"
-  echo "All steps completed successfully!"
-  echo "You may need to log out and back in for some changes (like groups or fonts) to take effect."
-  echo "---------------------------------------------------"
-  ;;
-
-"ALL_DONE")
+if [ "$CURRENT_STATE" = "ALL_DONE" ]; then
   echo "Setup is already marked as complete."
   read -p "Do you want to reset the state and start over? (y/n) " -n 1 -r
   echo
@@ -103,10 +55,51 @@ case "$CURRENT_STATE" in
     set_state "INIT"
     echo "State reset to INIT. Run the script again to start."
   fi
-  ;;
+  exit 0
+fi
 
-*)
-  echo "Unknown state: $CURRENT_STATE"
-  exit 1
-  ;;
-esac
+# Find where to resume
+START=0
+if [ "$CURRENT_STATE" != "INIT" ]; then
+  for i in "${!STEPS[@]}"; do
+    if [ "${STEPS[$i]}" = "$CURRENT_STATE" ]; then
+      START=$((i + 1))
+      break
+    fi
+  done
+  if [ "$START" -eq 0 ]; then
+    log_error "Unknown state: $CURRENT_STATE (delete $STATE_FILE to start over)"
+    exit 1
+  fi
+fi
+
+for ((i = START; i < ${#STEPS[@]}; i++)); do
+  step="${STEPS[$i]}"
+  echo "---------------------------------------------------"
+  log_info "Running step $step"
+  if ! bash "$SCRIPT_DIR/scripts/$step.sh"; then
+    log_error "Step $step failed. Fix the problem and re-run ./setup.sh to resume."
+    exit 1
+  fi
+  set_state "$step"
+
+  if needs_reboot "$step"; then
+    echo "---------------------------------------------------"
+    log_success "Step $step finished."
+    echo "A reboot is required before continuing."
+    echo "After rebooting, run ./setup.sh again to resume."
+    echo "---------------------------------------------------"
+    read -p "Reboot now? (y/n) " -n 1 -r
+    echo
+    if [[ $REPLY =~ ^[Yy]$ ]]; then
+      systemctl reboot
+    fi
+    exit 0
+  fi
+done
+
+set_state "ALL_DONE"
+echo "---------------------------------------------------"
+log_success "All steps completed successfully!"
+echo "You may need to log out and back in for some changes (like groups or fonts) to take effect."
+echo "---------------------------------------------------"

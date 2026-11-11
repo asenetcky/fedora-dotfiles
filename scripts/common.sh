@@ -30,30 +30,45 @@ cmd_exists() {
     command -v "$1" &> /dev/null
 }
 
-# Function to download and run a script securely (basic version)
-# Usage: install_from_url "Name" "URL" [args]
-install_from_url() {
-    local name="$1"
-    local url="$2"
-    shift 2
-    local args=("$@")
-
-    if cmd_exists "$name"; then
-        log_info "$name is already installed."
+# --- OS variant detection -----------------------------------------------------
+# "atomic"      -> Silverblue / Kinoite / other rpm-ostree systems
+# "workstation" -> traditional dnf-based Fedora
+# Override with: DOTFILES_VARIANT=atomic|workstation ./setup.sh
+detect_variant() {
+    case "${DOTFILES_VARIANT:-}" in
+    atomic | workstation)
+        echo "$DOTFILES_VARIANT"
         return
-    fi
+        ;;
+    "") ;;
+    *)
+        log_error "Invalid DOTFILES_VARIANT='$DOTFILES_VARIANT' (expected atomic or workstation)" >&2
+        exit 1
+        ;;
+    esac
 
-    log_info "Installing $name..."
-    local temp_script
-    temp_script=$(mktemp)
-    
-    if curl -LsSf "$url" -o "$temp_script"; then
-        sh "$temp_script" "${args[@]}"
-        rm "$temp_script"
-        log_success "$name installed."
+    if [ -e /run/ostree-booted ]; then
+        echo "atomic"
     else
-        log_error "Failed to download installer for $name"
-        rm -f "$temp_script"
-        return 1
+        echo "workstation"
+    fi
+}
+
+VARIANT="$(detect_variant)" || exit 1
+export DOTFILES_VARIANT="$VARIANT"
+
+is_atomic() {
+    [ "$VARIANT" = "atomic" ]
+}
+
+# Install system packages with the right tool for this variant.
+# On atomic systems the result only takes effect after a reboot.
+sys_install() {
+    if is_atomic; then
+        # --idempotent: don't fail if already requested
+        # --allow-inactive: don't fail if already in the base image
+        sudo rpm-ostree install --idempotent --allow-inactive "$@"
+    else
+        sudo dnf install -y "$@"
     fi
 }

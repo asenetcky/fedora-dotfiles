@@ -7,10 +7,6 @@
     "branch": "main",
     "commit": "9afa445602e6191917b4d32f1355e77b4525f905"
   },
-  "blink-copilot": {
-    "branch": "main",
-    "commit": "7ad8209b2f880a2840c94cdcd80ab4dc511d4f39"
-  },
   "blink.cmp": {
     "branch": "main",
     "commit": "b19413d214068f316c78978b08264ed1c41830ec"
@@ -26,14 +22,6 @@
   "conform.nvim": {
     "branch": "master",
     "commit": "c2526f1cde528a66e086ab1668e996d162c75f4f"
-  },
-  "copilot.lua": {
-    "branch": "master",
-    "commit": "9b8d77c6c847c83c784c05f5f86b4821ed90d3a1"
-  },
-  "copilot.vim": {
-    "branch": "release",
-    "commit": "a12fd5672110c8aa7e3c8419e28c96943ca179be"
   },
   "flit.nvim": {
     "branch": "main",
@@ -126,10 +114,6 @@
   "nvim-ts-autotag": {
     "branch": "main",
     "commit": "db15f2e0df2f5db916e511e3fffb682ef2f6354f"
-  },
-  "obsidian.nvim": {
-    "branch": "main",
-    "commit": "ae1f76a75c7ce36866e1d9342a8f6f5b9c2caf9b"
   },
   "otter.nvim": {
     "branch": "main",

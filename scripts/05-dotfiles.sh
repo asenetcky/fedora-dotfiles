@@ -5,31 +5,34 @@ source "$(dirname "$0")/common.sh"
 
 log_info ">>> Stowing Dotfiles..."
 
-# Backup function
-backup_file() {
-    if [ -f "$1" ] && [ ! -L "$1" ]; then
-        log_info "Backing up $1 to $1.bak"
-        mv "$1" "$1.bak"
-    fi
-}
+DOTFILES_ROOT="$(realpath "$(dirname "$0")/..")"
 
-backup_file "$HOME/.gitconfig"
-backup_file "$HOME/.bashrc"
+# -d/-t: stow's default target is the *parent* of the repo, not $HOME
+# --no-folding: link individual files, so e.g. ~/.ssh stays a real directory
+#               and keys/known_hosts never end up inside the repo
+STOW=(stow --no-folding -d "$DOTFILES_ROOT" -t "$HOME")
 
-# Ensure we are in the dotfiles directory
-CDIR="$(dirname "$0")"
-DOTFILES_ROOT="$(realpath "$CDIR/../")"
+# Move anything that would conflict out of the way (stow refuses to overwrite)
+mapfile -t CONFLICTS < <(
+    "${STOW[@]}" -n . 2>&1 |
+        sed -nE \
+            -e 's/.*existing target [^:]*: (.*)$/\1/p' \
+            -e 's/.* over existing target (.*) since .*/\1/p' |
+        sort -u
+)
+STAMP="$(date +%Y%m%d%H%M%S)"
+for target in "${CONFLICTS[@]}"; do
+    [ -n "$target" ] || continue
+    log_warn "Backing up ~/$target -> ~/$target.bak.$STAMP"
+    mv "$HOME/$target" "$HOME/$target.bak.$STAMP"
+done
 
-log_info "Stowing from $DOTFILES_ROOT"
-pushd "$DOTFILES_ROOT" > /dev/null
-# stow . handles the symlinking
-if stow .; then
+log_info "Stowing from $DOTFILES_ROOT into $HOME"
+if "${STOW[@]}" --restow .; then
     log_success "Dotfiles stowed successfully."
 else
     log_error "Stow failed."
-    popd > /dev/null
     exit 1
 fi
-popd > /dev/null
 
 log_success ">>> Step 05 Complete."

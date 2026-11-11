@@ -1,0 +1,17 @@
+# Files in this repo that must NOT be symlinked into $HOME.
+# (This file replaces stow's built-in ignore list, so VCS files are repeated here.)
+\.git
+\.gitignore
+\.gitmodules
+\.github
+\.stow-local-ignore
+\.markdownlint\.json
+\.release-please-manifest\.json
+^/release-please-config\.json
+^/README.*
+^/LICENSE.*
+^/AGENTS\.md
+^/CHANGELOG\.md
+^/setup\.sh
+^/scripts
+^/tests

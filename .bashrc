@@ -16,11 +16,6 @@ if [ -f ~/.bash_aliases ]; then
   . ~/.bash_aliases
 fi
 
-if [ -f ~/.bash_functions ]; then
-  # shellcheck source=.bash_functions
-  . ~/.bash_functions
-fi
-
 # User specific environment
 if ! [[ $PATH =~ $HOME/.local/bin:$HOME/bin: ]]; then
   PATH="$HOME/.local/bin:$HOME/bin:$PATH"
@@ -41,18 +36,19 @@ if [ -d ~/.bashrc.d ]; then
 fi
 unset rc
 
-# for 1password and vscode flatpak
+# 1Password SSH agent
 export SSH_AUTH_SOCK="$HOME/.1password/agent.sock"
 
-# for cargo/rust
+# opencode
+if ! [[ $PATH =~ $HOME/.opencode/bin ]]; then
+  export PATH="$HOME/.opencode/bin:$PATH"
+fi
+
+# Everything below is for interactive shells only, and is guarded so it
+# doesn't error inside toolboxes or before the tools are installed.
+[[ $- == *i* ]] || return
 
 # Set up fzf key bindings and fuzzy completion
-eval "$(fzf --bash)"
+if command -v fzf >/dev/null; then eval "$(fzf --bash)"; fi
 
-# starhip shell prompt
-eval "$(starship init bash)"
-
-fastfetch
-
-# opencode
-export PATH="$HOME/.opencode/bin:$PATH"
+if command -v fastfetch >/dev/null; then fastfetch; fi

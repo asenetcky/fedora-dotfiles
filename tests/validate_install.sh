@@ -5,7 +5,10 @@ set -e
 SCRIPT_DIR="$(dirname "$(realpath "$0")")"
 source "$SCRIPT_DIR/../scripts/common.sh"
 
-log_info ">>> Validating Installation..."
+log_info ">>> Validating Installation ($VARIANT)..."
+
+# User-local tools aren't on PATH in a non-interactive shell
+export PATH="$HOME/.local/bin:$HOME/.opencode/bin:$PATH"
 
 FAILED=0
 
@@ -27,50 +30,24 @@ check_flatpak() {
   fi
 }
 
-# 1. Check Layered/System Packages
+# 1. Check System Packages
 log_info "Checking System Packages..."
-check_cmd nvim
-check_cmd fzf
-check_cmd stow
-check_cmd tailscale
-check_cmd gh
-check_cmd bat
-check_cmd 1password
-check_cmd lazygit
+for c in nvim stow gh fzf lazygit tailscale op bat btop fastfetch vlc 1password positron; do
+  check_cmd "$c"
+done
 
 # 2. Check Userspace Tools
 log_info "Checking Userspace Tools..."
-check_cmd uv
-check_cmd starship
-check_cmd quarto
-check_cmd lazydocker
-check_cmd opencode
-# pls is a uv tool, check if it's in path
-check_cmd pls
+for c in uv pls opencode quarto; do
+  check_cmd "$c"
+done
 
 # 3. Check Flatpaks
 log_info "Checking Flatpaks..."
-check_flatpak com.visualstudio.code
-check_flatpak dev.zed.Zed
-check_flatpak org.libreoffice.LibreOffice
-
-# 4. Check Toolbox
-log_info "Checking Toolbox..."
-if toolbox list | grep -q "default"; then
-  log_success "Found toolbox 'default'"
-else
-  log_error "Missing toolbox 'default'"
-  FAILED=1
-fi
-
-# 5. Check Config Artifacts
-log_info "Checking Config Artifacts..."
-if [ -f "$SCRIPT_DIR/../gnome/dconf-settings.ini" ]; then
-  log_success "Gnome settings backup found."
-else
-  log_error "Gnome settings backup missing."
-  FAILED=1
-fi
+for app in org.libreoffice.LibreOffice com.github.tchx84.Flatseal dev.zed.Zed \
+  net.trowell.typesetter it.mijorus.gearlever md.obsidian.Obsidian; do
+  check_flatpak "$app"
+done
 
 if [ $FAILED -eq 0 ]; then
   log_success ">>> All checks passed!"
