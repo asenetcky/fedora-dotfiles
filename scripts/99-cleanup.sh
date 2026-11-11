@@ -1,13 +1,20 @@
 #!/bin/bash
 set -e
 
-echo ">>> Cleaning up System..."
+source "$(dirname "$0")/common.sh"
 
-echo "Pruning unused Flatpak runtimes..."
+log_info ">>> Cleaning up System..."
+
+log_info "Pruning unused Flatpak runtimes..."
 flatpak uninstall --unused -y
 
-echo "Cleaning up rpm-ostree metadata and cache..."
-sudo rpm-ostree cleanup -m
-sudo rpm-ostree cleanup -b
+if is_atomic; then
+    log_info "Cleaning up rpm-ostree metadata and cache..."
+    sudo rpm-ostree cleanup -m
+    sudo rpm-ostree cleanup -b
+else
+    log_info "Cleaning dnf package cache..."
+    sudo dnf clean packages
+fi
 
-echo ">>> Step 99 (Cleanup) Complete."
+log_success ">>> Step 99 (Cleanup) Complete."
